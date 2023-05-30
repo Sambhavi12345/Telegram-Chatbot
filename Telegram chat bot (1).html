@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Telegram Chatbot</title>
+</head>
+<body>
+  <h1>Telegram Chatbot</h1>
+  
+  <form id="chatForm">
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button type="submit">Send</button>
+  </form>
+  
+  <div id="chatMessages"></div>
+
+  <script>
+    // Handle form submission
+    document.getElementById('chatForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Get the user's message
+      var message = document.getElementById('messageInput').value;
+      
+      // Clear the input field
+      document.getElementById('messageInput').value = '';
+      
+      // Send the message to the chatbot backend
+      sendMessage(message);
+    });
+    
+    // Function to send a message to the chatbot backend
+    function sendMessage(message) {
+      // Make an API call to your Java backend (e.g., using AJAX or fetch)
+      // Replace the 'YOUR_BACKEND_URL' with the actual URL of your Java backend
+      fetch('YOUR_BACKEND_URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: message })
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        // Display the chatbot's reply
+        displayMessage(data.reply);
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      });
+    }
+    
+    // Function to display a chat message
+    function displayMessage(message) {
+      var chatMessages = document.getElementById('chatMessages');
+      var messageElement = document.createElement('div');
+      messageElement.innerText = message;
+      chatMessages.appendChild(messageElement);
+    }
+  </script>
+</body>
+</html>
